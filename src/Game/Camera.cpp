@@ -5,8 +5,6 @@
 #include "Components.hpp"
 #include "GameObject.hpp"
 
-#include <cstdio>
-
 namespace JustDrive {    
     Camera::Camera(glm::vec3 position, glm::vec3 rotation) {
         GameObject::transform = Components::Transform(position);
@@ -67,29 +65,42 @@ namespace JustDrive {
         //printf("Rotation: (%.2f,%.2f,%.2f)\n", (GameObject::transform.getRotation().x)*180/3.1415f,GameObject::transform.getRotation().y*180/3.1415f,GameObject::transform.getRotation().z*180/3.1415f);
     }
 
+    /*
+    выглядит логично, поле обзора пока константой тыкнем
+    */
     CarCamera::CarCamera(glm::vec3 position, float lerpMultiplier, float minDistance, Components::Transform* targetPosition) : lerpMultiplier(lerpMultiplier), minDistance(minDistance), targetPosition(targetPosition) {
         GameObject::transform = Components::Transform(position);
         yFov = 45.0f;
     }
 
     void CarCamera::initialize(GLFWwindow* window) {
+        //нам не особо надо, а в целом - пригодится
         return;
     }
 
     void CarCamera::run(GLFWwindow* window, float deltaTime) {
+        //наша позиция
         glm::vec3 camPos = GameObject::transform.getPosition();
+        /*
+        вектор в направлении цели
+        +в конце это прикол,
+        просто мы хотим смотреть не куда-то в трансмиссию, а желательно в область крыши машины.
+        */
         glm::vec3 directionVector = targetPosition->getPosition()-camPos+glm::vec3(0.0f, 0.5f, 0.0f);
+        //длина этого вектора - минимальная дистанция, сколько нужно покрыть
         float distanceToCover = glm::length(directionVector)-minDistance;
+        //вектор перемещения - покрытие на нормализованный вектор направления, что удобно
         glm::vec3 movementVector = distanceToCover*glm::normalize(directionVector);
+        //итоговая позиция цели
         glm::vec3 movementTargetPosition = camPos+movementVector;
+        //позиция по итогам кадра, линейная интерполяция текущих и целевых координат по deltaTime*lerpMultiplier
         glm::vec3 frameMovement = camPos + (deltaTime*lerpMultiplier)*(movementTargetPosition-camPos); // actually /(1-0)
+        //меняем только позицию, взгляд за нас getViewMatrix() вернёт.
         GameObject::transform.setPosition(frameMovement);
-        //GameObject::transform.lookAt(*targetPosition);
     }
 
     glm::mat4 CarCamera::getViewMatrix() {
+        //Что я и говорил. В целом lookAt сомнительно справляется со своими задачами, но нам - подходит.
         return glm::lookAt(GameObject::transform.getPosition(), targetPosition->getPosition(), GameObject::transform.getUp());
     }
-
-
 }

@@ -10,10 +10,12 @@
 namespace JustDrive {
     class GameObject {
         public:
-            GameObject();
-            GameObject(glm::vec3 position);
-            GameObject(Components::Transform transform);
+            GameObject(); //конструктор
+            GameObject(glm::vec3 position); //конструктор с координатами
+            GameObject(Components::Transform transform); //конструктор с целой трансформой
+            //своя трансформа
             Components::Transform transform;
+            //функции для потомков, поэтому тела нет.
             virtual void initialize(GLFWwindow* window) {};
             virtual void run(GLFWwindow* window, float deltaTime) {};
     };

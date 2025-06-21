@@ -1,11 +1,5 @@
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-
 #include "GameObject.hpp"
 #include "Components.hpp"
-
-
-#include <stdio.h>
 
 namespace JustDrive {
     GameObject::GameObject() {

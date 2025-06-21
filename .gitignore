@@ -1,0 +1,10 @@
+*.cmake
+CMakeCache.txt
+Makefile
+CMakeFiles
+libengine.a
+libjd.a
+build
+.cache
+*.pc
+*.a

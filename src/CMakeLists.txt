@@ -8,23 +8,32 @@ project(JustDrive
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/include_all)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/include_all)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/assimp/)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/glfw/)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/glm/)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/glad/)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/stbi/)
 
-add_library(engine Engine/Mesh.cpp Engine/Model.cpp Engine/Shader.cpp Engine/stbi.cpp Engine/glad.cpp)
-target_link_libraries(engine PRIVATE assimp::assimp)
-target_link_libraries(engine INTERFACE glfw)
-target_link_libraries(engine INTERFACE glm)
+add_library(engine Engine/Mesh.cpp Engine/Model.cpp Engine/Shader.cpp)
+#target_include_directories(engine BEFORE INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/assimp/include)
+#target_include_directories(engine BEFORE INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/glfw/include)
+#target_include_directories(engine BEFORE INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/glm/include)
+#target_include_directories(engine BEFORE INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/glad/include)
+target_link_libraries(engine PUBLIC assimp::assimp)
+target_link_libraries(engine PUBLIC glfw)
+target_link_libraries(engine PUBLIC glad)
+target_link_libraries(engine PUBLIC glm)
+target_link_libraries(engine PUBLIC stbi)
 
 
 add_library(jd Game/main.cpp Game/GameObject.cpp Game/Components.cpp Game/Camera.cpp Game/Car.cpp)
-target_link_libraries(jd PRIVATE engine)
-target_link_libraries(jd PRIVATE assimp::assimp)
-target_link_libraries(jd PRIVATE glfw)
-target_link_libraries(jd PRIVATE glm)
+target_link_libraries(jd PUBLIC engine)
+
+##target_link_libraries(jd INTERFACE assimp::assimp)
+##target_link_libraries(jd INTERFACE glfw)
+##target_link_libraries(jd INTERFACE glm)
 
 
 

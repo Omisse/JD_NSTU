@@ -10,8 +10,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(src ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_CONFIG)
 
-include_directories(${src}/src/external/include_all)
-
 add_subdirectory(${src}/src/)
 
 add_executable(JustDrive ${src}/src/Game/main.cpp)
