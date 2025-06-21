@@ -7,8 +7,9 @@ project(JD_NSTU
 )
 
 set(CMAKE_CXX_STANDARD 17)
-set(src ${CMAKE_SOURCE_DIR})
+set(src ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(${src}/src/)
 
-add_executable(JustDrive_main JustDrive)
+add_executable(JustDrive ${src}/src/Game/main.cpp)
+target_link_libraries(JustDrive jd)
