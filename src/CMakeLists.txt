@@ -25,7 +25,7 @@ target_link_libraries(engine INTERFACE glm)
 
 
 
-add_executable(my_test core/main.cpp core/GameObject.cpp core/Components.cpp core/Camera.cpp core/Car.cpp)
+add_executable(JustDrive core/main.cpp core/GameObject.cpp core/Components.cpp core/Camera.cpp core/Car.cpp)
 target_link_libraries(my_test PRIVATE engine)
 target_link_libraries(my_test PRIVATE assimp::assimp)
 target_link_libraries(my_test PRIVATE glfw)
